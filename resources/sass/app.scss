@@ -1,13 +1,51 @@
 //
 @import "~bootstrap/scss/bootstrap";
 
-.grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    grid-gap: 2rem;
+nav {
+    a.navbar-brand {
+        font-size: 1.7rem;
+    }
+}
 
-    div {
-        background-color: rgb(216, 216, 216);
-        padding: 1rem;
+div.action-wrapper {
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    form.delete-card {
+        display: inline;
+    }
+}
+
+div.card {
+    position: relative;
+
+    p.card-text {
+        margin: 0;
+    }
+}
+
+/* Regole di stile per container del form */
+div.wrapper-form {
+    max-width: 530px;
+    margin: 0 auto;
+}
+
+div.show-wrapper {
+    position: relative;
+    border: 1px solid lightgray;
+    border-radius: .5rem;
+    padding: 1rem 3rem 2.5rem;
+    font-size: 1.2rem;
+
+    ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+
+        li {
+            border-bottom: 1px solid lightgray;
+            padding: 1rem 0 .2rem;
+        }
     }
 }

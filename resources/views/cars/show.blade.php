@@ -1,20 +1,33 @@
 @extends('layout.default')
-
+@section('title', 'Show')
 @section('content')
-    <div class="container">
+    <div class="container py-3">
         <div class="row">
             <div class="col-12">
-                <h1>
-                    {{ ucFirst($car->model) }} - {{  ucFirst($car->brand->name) }}
-                </h1>
-                @include('partials.nav')
-                <a href="{{ route('cars.edit', $car->id) }}">Edit car</a>
-                <div class="p-2 bg-secondary text-white">
-                    <p>N. telaio: {{ $car->numero_telaio }}</p>
-                    <p>Porte: {{ $car->porte }}</p>
-                    <p>Data immatricolazione: {{ $car->data_immatricolazione }}</p>
-                    <p>Alimentazione: {{ $car->alimentazione }}</p>
-                    <p>Prezzo: {{ $car->prezzo }}</p>
+                <h2>{{  ucFirst($car->brand->name) }} - {{ ucFirst($car->model) }}</h2>
+                <div class="show-wrapper">
+                    <div class="action-wrapper">
+                        <a href="{{ route('cars.edit', $car->id) }}" class="btn btn-success btn-sm"><i class="fa-solid fa-pen"></i></a>
+                        <form action="{{ route('cars.destroy', $car->id) }}" method="POST" class="delete-card">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger btn-sm"><i class="fa-solid fa-trash"></i></button>
+                        </form>
+                    </div>
+                    <ul>
+                        <li><strong>N. telaio:</strong> {{ $car->numero_telaio }}</li>
+                        <li><strong>Porte:</strong> {{ $car->porte }}</li>
+                        <li><strong>Data immatricolazione:</strong> {{ $car->data_immatricolazione }}</li>
+                        <li><strong>Alimentazione:</strong> {{ $car->alimentazione }}</li>
+                        <li><strong>Prezzo:</strong> {{ $car->prezzo }}€</li>
+                        <li><strong>Condizioni: </strong>
+                            @php
+                                if($car->is_new){
+                                    echo 'Nuovo';
+                                } else{ echo 'Usato'; }
+                            @endphp
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>

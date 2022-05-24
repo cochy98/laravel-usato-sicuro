@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Car;
 use App\Brand;
 
@@ -15,7 +16,7 @@ class CarController extends Controller
      */
     public function index()
     {
-        $cars= Car::all();
+        $cars = Car::all();
         return view("cars.index", compact("cars"));
     }
 
@@ -26,7 +27,8 @@ class CarController extends Controller
      */
     public function create()
     {
-        return view("cars.create");
+        $brands = Brand::all();
+        return view("cars.create", ['brands' => $brands]);
     }
 
     /**
@@ -39,16 +41,17 @@ class CarController extends Controller
     {
         $data = $request->all();
         $car = new Car();
-            $car->numero_telaio= $data["numero_telaio"];
-            $car->model=$data["model"];
-            $car->porte=$data["porte"];
-            $car->data_immatricolazione=$data["data_immatricolazione"];
-            $car->marca=$data["marca"];
-            $car->alimentazione=$data["alimentazione"];
-            $car->prezzo=$data["prezzo"];
-            $car->save();
+        $car->numero_telaio = $data["numero_telaio"];
+        $car->model = $data["model"];
+        $car->porte = $data["porte"];
+        $car->data_immatricolazione = $data["data_immatricolazione"];
+        //$car->marca = $data["marca"];
+        $car->brand_id = $data["brand_id"];
+        $car->alimentazione = $data["alimentazione"];
+        $car->prezzo = $data["prezzo"];
+        $car->save();
 
-            return redirect()->route("cars.show", $car->id);
+        return redirect()->route("cars.show", $car->id);
     }
 
     /**
@@ -59,7 +62,7 @@ class CarController extends Controller
      */
     public function show($id)
     {
-        $car= Car::findOrFail($id);
+        $car = Car::findOrFail($id);
         return view("cars.show", compact("car"));
     }
 
@@ -99,13 +102,13 @@ class CarController extends Controller
 
         $data = $request->all();
 
-        $car->numero_telaio= $data["numero_telaio"];
-        $car->model=$data["model"];
-        $car->porte=$data["porte"];
-        $car->data_immatricolazione=$data["data_immatricolazione"];
-        $car->brand_id=$data["brand_id"];
-        $car->alimentazione=$data["alimentazione"];
-        $car->prezzo=$data["prezzo"];
+        $car->numero_telaio = $data["numero_telaio"];
+        $car->model = $data["model"];
+        $car->porte = $data["porte"];
+        $car->data_immatricolazione = $data["data_immatricolazione"];
+        $car->brand_id = $data["brand_id"];
+        $car->alimentazione = $data["alimentazione"];
+        $car->prezzo = $data["prezzo"];
         $car->save();
 
         return redirect()->route("cars.show", $car->id);
