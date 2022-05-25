@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Car;
+use App\Color;
 use App\Brand;
 
 use Illuminate\Http\Request;
@@ -28,7 +29,9 @@ class CarController extends Controller
     public function create()
     {
         $brands = Brand::all();
-        return view("cars.create", ['brands' => $brands]);
+        $colors = Color::all();
+
+        return view("cars.create", ['brands' => $brands, 'colors' => $colors]);
     }
 
     /**
@@ -39,6 +42,26 @@ class CarController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate(
+            [
+                'numero_telaio' => 'required|min:3|max:20',
+                'model' => 'required|min:3|max:20',
+                'porte' => 'required|numeric',
+                'data_immatricolazione' => 'required|date',
+                'brand_id' => 'required',
+                'alimentazione' => 'required',
+                'prezzo' => 'required|numeric',
+                'color' => 'required'
+            ],
+            [
+                'required' => ':attribute è richiesto',
+                'numeric' => ':attribute deve essere un numero',
+                'date' => ':attribute deve essere di tipo date',
+                'min' => ':attribute deve avere almeno :min caratteri',
+                'max' => ':attribute deve avere massimo :max caratteri'
+            ]
+        );
+
         $data = $request->all();
         $car = new Car();
         $car->numero_telaio = $data["numero_telaio"];
@@ -49,7 +72,9 @@ class CarController extends Controller
         $car->brand_id = $data["brand_id"];
         $car->alimentazione = $data["alimentazione"];
         $car->prezzo = $data["prezzo"];
+
         $car->save();
+        $car->colors()->attach($data["color"]);
 
         return redirect()->route("cars.show", $car->id);
     }
@@ -75,7 +100,8 @@ class CarController extends Controller
     public function edit(Car $car)
     {
         $brands = Brand::all();
-        return view('cars.edit', ['car' => $car, 'brands' => $brands]);
+        $colors = Color::all();
+        return view('cars.edit', ['car' => $car, 'brands' => $brands, 'colors' => $colors]);
     }
 
     /**
@@ -87,18 +113,25 @@ class CarController extends Controller
      */
     public function update(Request $request, Car $car)
     {
-        $request->validate([
-            'numero_telaio' => 'required|min:3',
-            'model' => 'required',
-            'porte' => 'required',
-            'data_immatricolazione' => 'required|date',
-            'brand_id' => 'required',
-            'alimentazione' => 'required',
-            'prezzo' => 'required',
-        ], [
-            'required' => 'Campo richiesto',
-            /* 'model.required' => 'Campo model richiesto', */
-        ]);
+        $request->validate(
+            [
+                'numero_telaio' => 'required|min:3|max:20',
+                'model' => 'required|min:3|max:20',
+                'porte' => 'required|numeric',
+                'data_immatricolazione' => 'required|date',
+                'brand_id' => 'required',
+                'alimentazione' => 'required',
+                'prezzo' => 'required|numeric',
+                'color' => 'required'
+            ],
+            [
+                'required' => ':attribute è richiesto',
+                'numeric' => ':attribute deve essere un numero',
+                'date' => ':attribute deve essere di tipo date',
+                'min' => ':attribute deve avere almeno :min caratteri',
+                'max' => ':attribute deve avere massimo :max caratteri'
+            ]
+        );
 
         $data = $request->all();
 
@@ -111,6 +144,7 @@ class CarController extends Controller
         $car->prezzo = $data["prezzo"];
         $car->save();
 
+        $car->colors()->sync($data["color"]);
         return redirect()->route("cars.show", $car->id);
     }
 
