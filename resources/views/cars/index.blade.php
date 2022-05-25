@@ -35,6 +35,12 @@
                             <p class="card-text"><strong>Alimentazione: </strong>{{ ucFirst($car->alimentazione) }}</p>
                             <p class="card-text"><strong>Numero Porte: </strong>{{ $car->porte }}</p>
                             <p class="card-text"><strong>Prezzo:</strong> {{ $car->prezzo }}€</p>
+                            <p class="card-text">
+                                <strong>Colore disponibile: </strong>
+                                @foreach ($car->colors as $color)
+                                    <span class="badge rounded-pill" style="background-color: {{ $color->color }}">{{ $color->color }}</span>
+                                @endforeach
+                            </p>
                         </div>
                     </div>
                 </div>

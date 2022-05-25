@@ -27,6 +27,12 @@
                                 } else{ echo 'Usato'; }
                             @endphp
                         </li>
+                        <li>
+                            <strong>Colore:</strong>
+                            @foreach ($car->colors as $color)
+                                <span class="badge rounded-pill" style="background-color: {{ $color->color }}">{{ $color->color }}</span>
+                            @endforeach
+                        </li>
                     </ul>
                 </div>
             </div>

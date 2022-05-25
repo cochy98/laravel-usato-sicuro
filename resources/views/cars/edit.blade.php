@@ -48,6 +48,13 @@
                     <label for="prezzo">Prezzo</label>
                     <input type="text" name="prezzo" id="prezzo" value="{{ $car->prezzo }}" class="form-control">
                 </div>
+                <div class="mb-3">
+                    <label for="porte">Colore</label>
+                    @foreach ($colors as $color)
+                        <input class="form-check-input" type="checkbox" name="color[]" value="{{$color->id}}" {{ $car->colors->contains($color) ? 'checked' : '' }}>
+                        <label for="colors" class="badge rounded-pill me-3" style="background-color: {{ $color->color }}">{{ $color->color }}</label>
+                    @endforeach
+                </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
         </div>
