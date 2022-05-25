@@ -51,11 +51,14 @@
                 </div>
                 <div class="mb-3">
                     <label for="porte">Colore</label>
-                    @foreach ($colors as $color)
-                        <input class="form-check-input" type="checkbox" name="color[]" value="{{$color->id}}">
-                        {{-- {{(old('color[$key]') == $color->id) ? 'checked' : ''}}> --}}
-                        <label for="colors" class="badge rounded-pill me-3" style="background-color: {{ $color->color }}">{{ $color->color }}</label>
-                    @endforeach
+                    <div>
+                        @foreach ($colors as $color)
+                            {{-- <input class="form-check-input" type="checkbox" name="color[]" value="{{$color->id}}"
+                            {{(old('color[]') == $color->id) ? 'checked' : ''}}> --}}
+                            <input class="form-check-input" type="checkbox" name="color[]" value="{{old('color[]') ?? $color->id}}">
+                            <label for="colors" class="badge rounded-pill me-3" style="background-color: {{ $color->color }}">{{ $color->color }}</label>
+                        @endforeach
+                    </div>
                     @dump(old('color'))
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
